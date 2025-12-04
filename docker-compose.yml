@@ -23,7 +23,7 @@ services:
     depends_on:
       - caddy
     environment:
-      - NEXTCLOUD_TRUSTED_DOMAINS=nextcloud.yourdomain.com     # ← CHANGE THIS
+      - NEXTCLOUD_TRUSTED_DOMAINS=nextcloud.zdome.local     # ← CHANGE THIS
       - NEXTCLOUD_DATADIR=/mnt/ncdata
       - APACHE_PORT=11000
       - NEXTCLOUD_UPLOAD_LIMIT=10G
