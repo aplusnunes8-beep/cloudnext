@@ -1,0 +1,38 @@
+# Change this to your real domain + add your server’s actual IP(s)
+nextcloud.x.x x.x.x.x {
+
+    # Uncomment and adjust if you also have IPv6
+    # @ipv6 host [fd00::abcd]
+    # handle @ipv6 {
+
+        # Self-signed certificate that is valid for the hostname AND the IP(s) listed above
+        tls internal
+
+        # Reverse proxy to Nextcloud AIO
+        reverse_proxy http://nextcloud-aio-mastercontainer:11000
+
+        # Recommended Nextcloud security headers
+        header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        header X-Content-Type-Options nosniff
+        header X-Frame-Options SAMEORIGIN
+        header X-XSS-Protection "1; mode=block"
+        header Referrer-Policy "no-referrer"
+        header -Server
+
+        # Compression
+        encode gzip
+    # }
+
+    # Everything else (hostname + IPv4 + IPv6 if you uncomment the matcher above)
+    tls internal
+    reverse_proxy http://nextcloud-aio-mastercontainer:11000
+
+    header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    header X-Content-Type-Options nosniff
+    header X-Frame-Options SAMEORIGIN
+    header X-XSS-Protection "1; mode=block"
+    header Referrer-Policy "no-referrer"
+    header -Server
+
+    encode gzip
+}
