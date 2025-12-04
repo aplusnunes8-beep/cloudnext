@@ -1,0 +1,23 @@
+# ← CHANGE THIS TO YOUR REAL DOMAIN
+nextcloud.zdome.local {
+
+    # Force redirect HTTP → HTTPS (except when coming from Cloudflare, etc.)
+    @notHttps {
+        protocol http
+    }
+    redir @notHttps https://{host}{uri} permanent
+
+    # Actual reverse proxy
+    reverse_proxy http://nextcloud-aio-mastercontainer:11000
+
+    # Security headers (recommended by Nextcloud)
+    header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    header X-Content-Type-Options nosniff
+    header X-Frame-Options SAMEORIGIN
+    header X-XSS-Protection "1; mode=block"
+    header Referrer-Policy "no-referrer"
+    header -Server
+
+    # Gzip compression
+    encode gzip
+}
