@@ -1,19 +1,17 @@
 ---
-version: "3.8"
 services:
   caddy:
     image: caddy:2-alpine
     container_name: caddy
     restart: unless-stopped
     ports:
-      - 8080:8080
+      # - 8080:8080
       - 443:443
     volumes:
       - caddy_data:/data
       - caddy_config:/config
-      - caddy_caddyfile:/etc/caddy/Caddyfile:ro
-    networks:
-      - nextcloud-net
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    network_mode: "host"
   nextcloud-aio-mastercontainer:
     image: nextcloud/all-in-one:latest
     container_name: nextcloud-aio-mastercontainer
@@ -21,21 +19,20 @@ services:
     depends_on:
       - caddy
     environment:
-      - NEXTCLOUD_TRUSTED_DOMAINS=nextcloud.yourdomain.com
+      - NEXTCLOUD_TRUSTED_DOMAINS=nextcloud.zdune.net
       - NEXTCLOUD_DATADIR=/mnt/ncdata
       - APACHE_PORT=11000
-      - APACHE_IP_BINDING=127.0.0.1
+     #- APACHE_IP_BINDING=0.0.0.0
       - NEXTCLOUD_UPLOAD_LIMIT=10G
       - SKIP_DOMAIN_VALIDATION=true
     volumes:
       - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    networks:
-      - nextcloud-net
+    network_mode: bridge    
+    ports:
+      - 8080:8080
 volumes:
-  nextcloud_aio_mastercontainer: null
-  caddy_data: null
-  caddy_config: null
-  caddy_caddyfile: null
-networks:
-  nextcloud-net: null
+  nextcloud_aio_mastercontainer:
+    name: nextcloud_aio_mastercontainer
+  caddy_data: 
+  caddy_config: 
