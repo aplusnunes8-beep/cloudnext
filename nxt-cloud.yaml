@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   npm:
     container_name: npm
@@ -34,7 +32,7 @@ services:
       # PGID: 1000
       
       # DISABLE_IPV6: 'true'  # Uncomment this if IPv6 is not enabled on your host (WAN interface)
-      TZ: "Europe/Berlin"   # the timezone of the server
+      TZ: "America/Toronto"   # the timezone of the server
 
     healthcheck:
       test: ["CMD", "/usr/bin/check-health"]
@@ -87,7 +85,7 @@ services:
       
       - NEXTCLOUD_UPLOAD_LIMIT=10G # Can be adjusted if you need more. See https://github.com/nextcloud/all-in-one#how-to-adjust-the-upload-limit-for-nextcloud
       - NEXTCLOUD_DATADIR=/mnt/ncdata   # Allows to set the host directory for Nextcloud's datadir. ⚠️⚠️⚠️ Warning: do not set or adjust this value after the initial Nextcloud installation is done! See https://github.com/nextcloud/all-in-one#how-to-change-the-default-location-of-nextclouds-datadir
-      - NEXTCLOUD_MOUNT=/mnt/nfs-storage/my_folder/nextcloud_data2  # Allows the Nextcloud container to access the chosen directory on the host. See https://github.com/nextcloud/all-in-one#how-to-allow-the-nextcloud-container-to-access-directories-on-the-host
+      # - NEXTCLOUD_MOUNT=/mnt/nfs-storage/my_folder/nextcloud_data2  # Allows the Nextcloud container to access the chosen directory on the host. See https://github.com/nextcloud/all-in-one#how-to-allow-the-nextcloud-container-to-access-directories-on-the-host
       
       # settings overwriting the config.php parameters
       - NC_TRUSTED_PROXIES="172.18.0.2"  # this is the NPM proxy ip address in the docker network !
